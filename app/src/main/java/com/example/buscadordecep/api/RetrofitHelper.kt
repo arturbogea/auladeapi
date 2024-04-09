@@ -5,6 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitHelper {
 
+    //Configuração do Retrofit
     companion object{
         val retrofit = Retrofit.Builder()
             .baseUrl("https://viacep.com.br/")
