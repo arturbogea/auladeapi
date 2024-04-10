@@ -44,6 +44,6 @@ class MainActivity : AppCompatActivity() {
         //Aqui passo uma interface para o metodo create, do objeto retrofit. Ele retorna um objeto. Esse objeto retornado, é do tipo endereço api
         //O metodo create recebe uma interface, e no final, a partir da interface, ele cria e retorna um objeto.
         val enderecoAPI = retrofit.create(EnderecoAPI:: class.java)
-        enderecoAPI.recuperarEndereco()
+        val retorno = enderecoAPI.recuperarEndereco() // Dentro da interface EnderecoAPI, que será feito todas as configurações
     }
 }
