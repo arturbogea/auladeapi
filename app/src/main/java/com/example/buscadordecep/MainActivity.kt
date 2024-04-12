@@ -44,13 +44,51 @@ class MainActivity : AppCompatActivity() {
                 //recuperarEndereco()
                 //recuperarPostagens()
                 //recuperarPostagemUnica()
-                recuperarComentarioParaPostagem()
+                //recuperarComentarioParaPostagem()
             }
         }
 
     }
 
-    private suspend fun recuperarComentarioParaPostagem() {
+    private suspend fun salvarPostagem() {
+        var retorno: Response<Postagem>? = null
+        val postagem = Postagem("Corpo da postagem", -1, "Titulo da postagem", 1090)
+
+
+        try {
+            val postagemAPI = retrofit.create(PostagemAPI::class.java)
+
+            retorno = postagemAPI.salvarPostagem(postagem)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("info_jsonPlace", "Erro ao recuperar")
+        }
+
+        if (retorno != null) {
+            /*
+            Se deu tudo certo para pegar os dados acima, ele vai entrar no if para ver se é diferente de nulo.
+            Caso seja diferente de nulo, ele entra no outro if, para ver se o retorno foi feito com sucesso.
+            Caso deu tudo certo, crio uma variavel endereço, pois o retorno é um endereço.
+            Como o retorno é um response de endereço, coloco o retorno.body. Pois ele pega o retorno do response
+            O response é um objeto especial da propria retrofit, para que possamos ter o retorno da requisição
+             */
+            if (retorno.isSuccessful) {
+                val postagem = retorno.body()
+                val id = postagem?.id
+                val title = postagem?.title
+                val idUsiario = postagem?.userId
+                val resultado = "id: $id - Tittle: $title - User: $idUsiario"
+
+                withContext(Dispatchers.Main) {
+                    binding.textResultado.text = resultado
+                }
+
+            }
+
+        }
+    }
+
+    /*private suspend fun recuperarComentarioParaPostagem() {
         var retorno: Response<List<Comentario>>? = null
 
 
@@ -65,13 +103,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (retorno != null){
-            /*
+            *//*
             Se deu tudo certo para pegar os dados acima, ele vai entrar no if para ver se é diferente de nulo.
             Caso seja diferente de nulo, ele entra no outro if, para ver se o retorno foi feito com sucesso.
             Caso deu tudo certo, crio uma variavel endereço, pois o retorno é um endereço.
             Como o retorno é um response de endereço, coloco o retorno.body. Pois ele pega o retorno do response
             O response é um objeto especial da propria retrofit, para que possamos ter o retorno da requisição
-             */
+             *//*
             if (retorno.isSuccessful){
                 val listaComentario = retorno.body()
                 var resultado = ""
@@ -89,11 +127,9 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-            //Depois que usamos o body, temos acesso aos dados da api
-            //Para poder usar a API, preciso da permissão de acesso a internet. Será configurado no manifest
         }
-    }
-}
+    }*/
+
 
     /*private suspend fun recuperarPostagemUnica() {
         var retorno: Response<Postagem>? = null
@@ -206,5 +242,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+*/}
 
-    }*/

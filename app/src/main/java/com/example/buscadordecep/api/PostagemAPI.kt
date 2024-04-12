@@ -3,7 +3,9 @@ package com.example.buscadordecep.api
 import com.example.buscadordecep.model.Comentario
 import com.example.buscadordecep.model.Postagem
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -46,6 +48,11 @@ interface PostagemAPI {
     Mas ambos fazem a mesma coisa. Ambos trazem o mesmo resultado.
 
      */
+
+    //O post é uma requisição que serve para salvar dados na API
+    @POST("post")
+    suspend fun salvarPostagem(@Body postagem: Postagem): Response<Postagem>
+
 
 
 
