@@ -4,8 +4,11 @@ import com.example.buscadordecep.model.Comentario
 import com.example.buscadordecep.model.Postagem
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -53,6 +56,37 @@ interface PostagemAPI {
     @POST("post")
     suspend fun salvarPostagem(@Body postagem: Postagem): Response<Postagem>
 
+    /*
+    Requisição Put serve para atualizar dados no servidor(modificação completa).
+    @PUT("posts/{id}")
+    É utilizado o @Path id: Int e o @Body postagem: Postagem
+    O Path é para definir o id, que será redirecionado na rota ao lado de post
+    O Body é para atualizar o corpo do item que que quero atualizar.
+     */
+
+
+    @PUT("posts/{id}") //Atualicação completa
+    suspend fun atualizarPostagemPut(@Path("id")  id: Int, @Body postagem: Postagem): Response<Postagem>
+
+
+    /*
+    Requisição Patch serve também para atualizar dados no servidor(Aplicando modificações parciais)
+    @PATCH("posts/{id}")
+    É utilizado o @Path id: Int e o @Body postagem: Postagem
+    O Path é para definir o id, que será redirecionado na rota ao lado de post
+    O Body é para atualizar o corpo do item que que quero atualizar.
+     */
+
+    @PATCH("posts/{id}") //Atualicação parcial
+    suspend fun atualizarPostagemPatch(@Path("id")  id: Int, @Body postagem: Postagem): Response<Postagem>
+
+    /*
+    Requisição Delete serve para remover dados do servidor.
+    @DELETE("posts/{id}")
+     */
+
+    @DELETE("posts/{id}")
+    suspend fun removerPostagem(@Path("id") id: Int): Response<Unit> //Aqui no tipo, pode deixar o Unit, pois como vai deletar, não vai retornar nada. Pois ao apagar a postagem, ela não vai existir mais. Posso deixar sem o Unit também.
 
 
 

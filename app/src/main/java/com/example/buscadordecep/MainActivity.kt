@@ -6,12 +6,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.buscadordecep.api.EnderecoAPI
 import com.example.buscadordecep.api.PostagemAPI
 import com.example.buscadordecep.api.RetrofitHelper
 import com.example.buscadordecep.databinding.ActivityMainBinding
-import com.example.buscadordecep.model.Comentario
-import com.example.buscadordecep.model.Endereco
 import com.example.buscadordecep.model.Postagem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -45,20 +42,21 @@ class MainActivity : AppCompatActivity() {
                 //recuperarPostagens()
                 //recuperarPostagemUnica()
                 //recuperarComentarioParaPostagem()
+                //atualizarPostagemPut()
+                //atualizarPostagemPatch()
+                removerPostagem()
             }
         }
 
     }
 
-    private suspend fun salvarPostagem() {
-        var retorno: Response<Postagem>? = null
-        val postagem = Postagem("Corpo da postagem", -1, "Titulo da postagem", 1090)
+    private suspend fun removerPostagem() {
+        var retorno: Response<Unit>? = null
 
 
         try {
             val postagemAPI = retrofit.create(PostagemAPI::class.java)
-
-            retorno = postagemAPI.salvarPostagem(postagem)
+            retorno = postagemAPI.removerPostagem(1)
         } catch (e: Exception) {
             e.printStackTrace()
             Log.i("info_jsonPlace", "Erro ao recuperar")
@@ -73,6 +71,115 @@ class MainActivity : AppCompatActivity() {
             O response é um objeto especial da propria retrofit, para que possamos ter o retorno da requisição
              */
             if (retorno.isSuccessful) {
+
+                val resultado = "Sucesso ao remover"
+
+                withContext(Dispatchers.Main) {
+                    binding.textResultado.text = resultado
+                }
+
+            }
+
+        }
+    }
+
+    /*private suspend fun atualizarPostagemPatch() {
+        var retorno: Response<Postagem>? = null
+
+
+        try {
+            val postagemAPI = retrofit.create(PostagemAPI::class.java)
+            retorno = postagemAPI.atualizarPostagemPatch(1, Postagem("Corpo da postagem", -1, null, 1099))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("info_jsonPlace", "Erro ao recuperar")
+        }
+
+        if (retorno != null) {
+            *//*
+            Se deu tudo certo para pegar os dados acima, ele vai entrar no if para ver se é diferente de nulo.
+            Caso seja diferente de nulo, ele entra no outro if, para ver se o retorno foi feito com sucesso.
+            Caso deu tudo certo, crio uma variavel endereço, pois o retorno é um endereço.
+            Como o retorno é um response de endereço, coloco o retorno.body. Pois ele pega o retorno do response
+            O response é um objeto especial da propria retrofit, para que possamos ter o retorno da requisição
+             *//*
+            if (retorno.isSuccessful) {
+                val postagem = retorno.body()
+                val id = postagem?.id
+                val title = postagem?.title
+                val idUsiario = postagem?.userId
+                val corpo = postagem?.description
+                val resultado = "id: $id - Tittle: $title - C: $corpo - User: $idUsiario"
+
+                withContext(Dispatchers.Main) {
+                    binding.textResultado.text = resultado
+                }
+
+            }
+
+        }
+    }*/
+
+    /*private suspend fun atualizarPostagemPut() {
+        var retorno: Response<Postagem>? = null
+
+
+        try {
+            val postagemAPI = retrofit.create(PostagemAPI::class.java)
+            retorno = postagemAPI.atualizarPostagemPut(1, Postagem("Corpo da postagem", -1, "Titulo", 1099))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("info_jsonPlace", "Erro ao recuperar")
+        }
+
+        if (retorno != null) {
+            *//*
+            Se deu tudo certo para pegar os dados acima, ele vai entrar no if para ver se é diferente de nulo.
+            Caso seja diferente de nulo, ele entra no outro if, para ver se o retorno foi feito com sucesso.
+            Caso deu tudo certo, crio uma variavel endereço, pois o retorno é um endereço.
+            Como o retorno é um response de endereço, coloco o retorno.body. Pois ele pega o retorno do response
+            O response é um objeto especial da propria retrofit, para que possamos ter o retorno da requisição
+             *//*
+            if (retorno.isSuccessful) {
+                val postagem = retorno.body()
+                val id = postagem?.id
+                val title = postagem?.title
+                val idUsiario = postagem?.userId
+                val corpo = postagem?.description
+                val resultado = "id: $id - Tittle: $title - C: $corpo - User: $idUsiario"
+
+                withContext(Dispatchers.Main) {
+                    binding.textResultado.text = resultado
+                }
+
+            }
+
+        }
+    }*/
+
+    /*private suspend fun salvarPostagem() {
+        var retorno: Response<Postagem>? = null
+        val postagem = Postagem("Corpo da postagem", -1, "Titulo da postagem", 1090)
+
+
+        try {
+            val postagemAPI = retrofit.create(PostagemAPI::class.java)
+
+            retorno = postagemAPI.salvarPostagem(postagem)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("info_jsonPlace", "Erro ao recuperar")
+        }
+
+        if (retorno != null) {
+            *//*
+            Se deu tudo certo para pegar os dados acima, ele vai entrar no if para ver se é diferente de nulo.
+            Caso seja diferente de nulo, ele entra no outro if, para ver se o retorno foi feito com sucesso.
+            Caso deu tudo certo, crio uma variavel endereço, pois o retorno é um endereço.
+            Como o retorno é um response de endereço, coloco o retorno.body. Pois ele pega o retorno do response
+            O response é um objeto especial da propria retrofit, para que possamos ter o retorno da requisição
+             *//*
+            if (retorno.isSuccessful) {
                 val postagem = retorno.body()
                 val id = postagem?.id
                 val title = postagem?.title
@@ -86,7 +193,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-    }
+    }*/
 
     /*private suspend fun recuperarComentarioParaPostagem() {
         var retorno: Response<List<Comentario>>? = null
